@@ -1,10 +1,9 @@
+# Only GitHub Actions are auto-updated. Python requirements are minimum
+# versions (not pins), and the browser build (Pyodide) ships its own older
+# pandas, so raising a floor automatically would break the live site.
 version: 2
 updates:
   - package-ecosystem: github-actions
-    directory: /
-    schedule:
-      interval: monthly
-  - package-ecosystem: pip
     directory: /
     schedule:
       interval: monthly
