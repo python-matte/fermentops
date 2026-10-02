@@ -1,0 +1,18 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Local data (your real batches live here; never commit it)
+data/
+*.db
+
+# Build output
+_site/
+
+# Tooling / OS
+.claude/
+.DS_Store
+.gstack/

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FermentOps · Micro-batch fermentation toolkit</title>
+    <meta
+      name="description"
+      content="Precision calculators, batch tracking and production-sheet export for micro-batch fermentation. Runs entirely in your browser."
+    />
+    <meta property="og:title" content="FermentOps" />
+    <meta
+      property="og:description"
+      content="Fermentation calculators, batch tracker and production-sheet exporter. A Streamlit app running in the browser via WebAssembly."
+    />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍾</text></svg>" />
+    <!-- Pinned version: the site never changes behaviour under our feet. -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@stlite/browser@1.9.2/build/stlite.css"
+    />
+    <style>
+      body { margin: 0; font-family: system-ui, sans-serif; }
+      #loading {
+        display: flex; flex-direction: column; align-items: center;
+        justify-content: center; gap: 0.5rem; min-height: 100vh;
+        color: #555; text-align: center; padding: 0 1rem;
+      }
+      #loading .emoji { font-size: 3rem; }
+      #loading small { max-width: 32rem; }
+      #root:not(:empty) + #loading { display: none; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="loading">
+      <div class="emoji">🍾</div>
+      <strong>Starting FermentOps…</strong>
+      <small>
+        Python and Streamlit are loading into your browser. The first visit
+        takes 10–30 seconds; later visits are cached. Nothing you enter
+        leaves your device.
+      </small>
+      <noscript>This app needs JavaScript and WebAssembly.</noscript>
+    </div>
+
+    <script type="module">
+      import { mount } from "https://cdn.jsdelivr.net/npm/@stlite/browser@1.9.2/build/stlite.js";
+
+      // Filled in by scripts/build_site.py; first entry is the entrypoint.
+      const files = __APP_FILES__;
+
+      mount(
+        {
+          entrypoint: files[0],
+          // Keep in sync with requirements.txt (streamlit ships with stlite).
+          requirements: ["pydantic", "pandas"],
+          files: Object.fromEntries(
+            files.map((name) => [name, { url: `./app/${name}` }])
+          ),
+          streamlitConfig: { "client.toolbarMode": "viewer" },
+        },
+        document.getElementById("root")
+      );
+    </script>
+  </body>
+</html>
